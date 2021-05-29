@@ -3,10 +3,12 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:media/base/colors.dart';
+import 'package:media/features/play_song/song.dart';
 import 'package:media/utils/custom_seekbar.dart';
 
 class PlaySongPage extends StatefulWidget {
-  PlaySongPage({Key key}) : super(key: key);
+  final Song song;
+  PlaySongPage({Key key, @required this.song}) : super(key: key);
 
   @override
   _PlaySongPageState createState() => _PlaySongPageState();
@@ -20,16 +22,18 @@ class _PlaySongPageState extends State<PlaySongPage>
   Animation<double> valueTween;
   double _currentProgress = 0.0;
   AnimationController _rotationController;
+  bool _isPauseSong = false;
   @override
   void initState() {
     _rotationController = AnimationController(
-      duration: const Duration(seconds: 6),
+      duration: const Duration(seconds: 20),
       vsync: this,
-    )..repeat();
+    )..forward();
     valueTween = CurvedAnimation(
       parent: _rotationController,
       curve: Curves.linear,
     );
+
     animationController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 200));
     _seekController = AnimationController(vsync: this);
@@ -57,7 +61,7 @@ class _PlaySongPageState extends State<PlaySongPage>
                 colorFilter: ColorFilter.mode(
                     AppColors.backGroundColor.withOpacity(0.2),
                     BlendMode.dstATop),
-                image: Image.asset('assets/images/forrest_gumb.jpg').image,
+                image: Image.asset(widget.song.urlAvatar).image,
               ),
               gradient: LinearGradient(
                   begin: Alignment.topCenter,
@@ -85,7 +89,7 @@ class _PlaySongPageState extends State<PlaySongPage>
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 15),
               child: Text(
-                'Forrest Gumb Soundtrack',
+                widget.song.nameSong,
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,
@@ -93,7 +97,7 @@ class _PlaySongPageState extends State<PlaySongPage>
               ),
             ),
             Text(
-              'Tom Hanks',
+              widget.song.nameSinger,
               style: TextStyle(color: Colors.grey[300], fontSize: 16),
             ),
             const SizedBox(
@@ -127,7 +131,7 @@ class _PlaySongPageState extends State<PlaySongPage>
             border: Border.all(color: Color(0xff848fb9), width: 8)),
         child: ClipOval(
           child: Image.asset(
-            'assets/images/forrest_gumb.jpg',
+            widget.song.urlAvatar,
             fit: BoxFit.fill,
           ),
         ),
@@ -214,6 +218,14 @@ class _PlaySongPageState extends State<PlaySongPage>
               padding: const EdgeInsets.symmetric(horizontal: 40),
               child: InkWell(
                 onTap: () async {
+                  if (_isPauseSong) {
+                    print('pause');
+                    _isPauseSong = !_isPauseSong;
+                    _rotationController.forward();
+                  } else {
+                    _isPauseSong = !_isPauseSong;
+                    _rotationController.stop();
+                  }
                   if (animationController.status == AnimationStatus.completed) {
                     setState(() {
                       animationController.reverse();

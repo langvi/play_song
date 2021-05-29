@@ -2,7 +2,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:media/base/colors.dart';
+import 'package:media/features/play_list/play_list_page.dart';
 import 'package:media/features/play_song/play_song_page.dart';
+import 'package:media/features/play_song/song.dart';
 import 'package:media/utils/navigator.dart';
 
 class MediaPage extends StatefulWidget {
@@ -120,22 +122,33 @@ class _MediaPageState extends State<MediaPage> {
             sliders.length,
             (index) => Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: Container(
-                    decoration: BoxDecoration(
+                  child: InkWell(
+                    onTap: () {
+                      navToScreenWithTransition(
+                          context: context,
+                          toPage: PlaySongPage(
+                              song: Song(
+                                  urlAvatar: 'assets/images/forrest_gumb.jpg',
+                                  nameSinger: 'Tom Hanks',
+                                  nameSong: 'Forrest Gumb Soundtrack')));
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.black26,
+                                blurRadius: 2,
+                                offset: Offset(-1, 2))
+                          ]),
+                      child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.black26,
-                              blurRadius: 2,
-                              offset: Offset(-1, 2))
-                        ]),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Image.asset(
-                        sliders[index],
-                        fit: BoxFit.cover,
-                        height: 170,
-                        width: double.infinity,
+                        child: Image.asset(
+                          sliders[index],
+                          fit: BoxFit.cover,
+                          height: 170,
+                          width: double.infinity,
+                        ),
                       ),
                     ),
                   ),
@@ -170,7 +183,10 @@ class _MediaPageState extends State<MediaPage> {
             child: InkWell(
                 focusColor: Colors.white,
                 highlightColor: AppColors.bottomNavColor,
-                onTap: () {},
+                onTap: () {
+                  navToScreenWithTransition(
+                      context: context, toPage: PlayListPage());
+                },
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Icon(
@@ -207,7 +223,14 @@ class _MediaPageState extends State<MediaPage> {
   Widget _buildItemAlbum(int index) {
     return InkWell(
       onTap: () {
-        navToScreenWithTransition(context: context, toPage: PlaySongPage());
+        navToScreenWithTransition(
+            context: context,
+            toPage: PlaySongPage(
+              song: Song(
+                  urlAvatar: 'assets/images/interstellar.jpg',
+                  nameSong: 'Interstellar Soundtrack',
+                  nameSinger: 'Han simmer'),
+            ));
       },
       child: Container(
         width: 120,
@@ -251,64 +274,79 @@ class _MediaPageState extends State<MediaPage> {
   }
 
   Widget _buildListRecom() {
-    return ListView.separated(
-      physics: NeverScrollableScrollPhysics(),
-      padding: EdgeInsets.only(left: 28, right: 28, bottom: 10),
-      shrinkWrap: true,
-      separatorBuilder: (context, index) {
-        return SizedBox(
-          height: 10,
-        );
-      },
-      itemCount: 10,
-      itemBuilder: (context, index) {
-        return Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                        color: Colors.black26,
-                        blurRadius: 2,
-                        offset: Offset(-1, 2))
-                  ]),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(15),
-                child: Image.asset('assets/images/interstellar.jpg',
-                    height: 80, width: 80, fit: BoxFit.fill),
-              ),
+    return Material(
+      color: Colors.transparent,
+      child: ListView.separated(
+        physics: NeverScrollableScrollPhysics(),
+        padding: EdgeInsets.only(left: 28, right: 28, bottom: 10),
+        shrinkWrap: true,
+        separatorBuilder: (context, index) {
+          return SizedBox(
+            height: 10,
+          );
+        },
+        itemCount: 10,
+        itemBuilder: (context, index) {
+          return InkWell(
+            onTap: () {
+              navToScreenWithTransition(
+                  context: context,
+                  toPage: PlaySongPage(
+                    song: Song(
+                        urlAvatar: 'assets/images/interstellar.jpg',
+                        nameSong: 'Interstellar Soundtrack',
+                        nameSinger: 'Han simmer'),
+                  ));
+            },
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.black26,
+                            blurRadius: 2,
+                            offset: Offset(-1, 2))
+                      ]),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15),
+                    child: Image.asset('assets/images/interstellar.jpg',
+                        height: 80, width: 80, fit: BoxFit.fill),
+                  ),
+                ),
+                const SizedBox(
+                  width: 20,
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        'InterstInterstellarInterstellar $index',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Text(
+                        'Han simmer',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(color: Colors.grey[350], fontSize: 12),
+                      ),
+                    ],
+                  ),
+                )
+              ],
             ),
-            const SizedBox(
-              width: 20,
-            ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(
-                    'InterstInterstellarInterstellar $index',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  Text(
-                    'Han simmer',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(color: Colors.grey[350], fontSize: 12),
-                  ),
-                ],
-              ),
-            )
-          ],
-        );
-      },
+          );
+        },
+      ),
     );
   }
 
