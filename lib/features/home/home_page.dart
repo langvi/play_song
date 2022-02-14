@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:media/base/colors.dart';
+import 'package:media/features/library/library_page.dart';
 import 'package:media/features/media/media_page.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key key}) : super(key: key);
+  HomePage({Key? key}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -17,6 +18,15 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backGroundColor,
+      // drawer: Drawer(
+      //     child: Column(
+      //   children: [
+      //     Text('Pick file from your device'),
+      //     ElevatedButton(onPressed: () {
+
+      //     }, child: Text("Pick"))
+      //   ],
+      // )),
       body: Column(
         children: [
           Expanded(
@@ -30,11 +40,7 @@ class _HomePageState extends State<HomePage> {
               },
               children: [
                 MediaPage(),
-                Container(
-                  child: Center(
-                    child: Text('2'),
-                  ),
-                ),
+                LibraryPage(),
                 Container(
                   child: Center(
                     child: Text('3'),

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 void navToScreenWithTransition(
-    {@required BuildContext context,
-    @required Widget toPage,
-    Function callback}) async {
+    {required BuildContext context,
+    required Widget toPage,
+    Function? callback}) async {
   await Navigator.of(context).push(PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) => toPage,
     transitionsBuilder: (context, animation, secondaryAnimation, child) {

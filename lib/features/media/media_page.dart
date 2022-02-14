@@ -5,10 +5,11 @@ import 'package:media/base/colors.dart';
 import 'package:media/features/play_list/play_list_page.dart';
 import 'package:media/features/play_song/play_song_page.dart';
 import 'package:media/features/play_song/song.dart';
+import 'package:media/main.dart';
 import 'package:media/utils/navigator.dart';
 
 class MediaPage extends StatefulWidget {
-  MediaPage({Key key}) : super(key: key);
+  MediaPage({Key? key}) : super(key: key);
 
   @override
   _MediaPageState createState() => _MediaPageState();
@@ -17,6 +18,17 @@ class MediaPage extends StatefulWidget {
 class _MediaPageState extends State<MediaPage> {
   final List<String> sliders =
       List<String>.generate(5, (index) => 'assets/images/forrest_gumb.jpg');
+  @override
+  void initState() {
+    getSongs();
+    super.initState();
+  }
+
+  void getSongs() async {
+    var result = await songDatabase.queryRecordByPage(1, 10);
+    print(result);
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -129,6 +141,8 @@ class _MediaPageState extends State<MediaPage> {
                           toPage: PlaySongPage(
                               song: Song(
                                   urlAvatar: 'assets/images/forrest_gumb.jpg',
+                                  pathSong: '',
+                                  id: 1,
                                   nameSinger: 'Tom Hanks',
                                   nameSong: 'Forrest Gumb Soundtrack')));
                     },
@@ -227,6 +241,8 @@ class _MediaPageState extends State<MediaPage> {
             context: context,
             toPage: PlaySongPage(
               song: Song(
+                  pathSong: '',
+                  id: 1,
                   urlAvatar: 'assets/images/interstellar.jpg',
                   nameSong: 'Interstellar Soundtrack',
                   nameSinger: 'Han simmer'),
@@ -293,7 +309,9 @@ class _MediaPageState extends State<MediaPage> {
                   context: context,
                   toPage: PlaySongPage(
                     song: Song(
+                        pathSong: '',
                         urlAvatar: 'assets/images/interstellar.jpg',
+                        id: 1,
                         nameSong: 'Interstellar Soundtrack',
                         nameSinger: 'Han simmer'),
                   ));

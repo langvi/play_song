@@ -8,7 +8,7 @@ import 'package:media/utils/custom_seekbar.dart';
 
 class PlaySongPage extends StatefulWidget {
   final Song song;
-  PlaySongPage({Key key, @required this.song}) : super(key: key);
+  PlaySongPage({Key? key, required this.song}) : super(key: key);
 
   @override
   _PlaySongPageState createState() => _PlaySongPageState();
@@ -16,12 +16,12 @@ class PlaySongPage extends StatefulWidget {
 
 class _PlaySongPageState extends State<PlaySongPage>
     with TickerProviderStateMixin {
-  AnimationController animationController;
-  AnimationController _seekController;
-  Animation<Color> colorTween;
-  Animation<double> valueTween;
+  late AnimationController animationController;
+  late AnimationController _seekController;
+  Animation<Color?>? colorTween;
+  late Animation<double> valueTween;
   double _currentProgress = 0.0;
-  AnimationController _rotationController;
+  late AnimationController _rotationController;
   bool _isPauseSong = false;
   @override
   void initState() {
@@ -61,7 +61,7 @@ class _PlaySongPageState extends State<PlaySongPage>
                 colorFilter: ColorFilter.mode(
                     AppColors.backGroundColor.withOpacity(0.2),
                     BlendMode.dstATop),
-                image: Image.asset(widget.song.urlAvatar).image,
+                image: Image.asset(widget.song.urlAvatar!).image,
               ),
               gradient: LinearGradient(
                   begin: Alignment.topCenter,
@@ -89,7 +89,7 @@ class _PlaySongPageState extends State<PlaySongPage>
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 15),
               child: Text(
-                widget.song.nameSong,
+                widget.song.nameSong!,
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,
@@ -97,7 +97,7 @@ class _PlaySongPageState extends State<PlaySongPage>
               ),
             ),
             Text(
-              widget.song.nameSinger,
+              widget.song.nameSinger!,
               style: TextStyle(color: Colors.grey[300], fontSize: 16),
             ),
             const SizedBox(
@@ -131,7 +131,7 @@ class _PlaySongPageState extends State<PlaySongPage>
             border: Border.all(color: Color(0xff848fb9), width: 8)),
         child: ClipOval(
           child: Image.asset(
-            widget.song.urlAvatar,
+            widget.song.urlAvatar!,
             fit: BoxFit.fill,
           ),
         ),

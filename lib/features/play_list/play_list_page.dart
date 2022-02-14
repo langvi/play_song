@@ -5,7 +5,7 @@ import 'package:media/features/play_song/song.dart';
 import 'package:media/utils/navigator.dart';
 
 class PlayListPage extends StatefulWidget {
-  PlayListPage({Key key}) : super(key: key);
+  PlayListPage({Key? key}) : super(key: key);
 
   @override
   _PlayListPageState createState() => _PlayListPageState();
@@ -69,6 +69,8 @@ class _PlayListPageState extends State<PlayListPage> {
               toPage: PlaySongPage(
                   song: Song(
                       urlAvatar: 'assets/images/saving_private_ryan.jpg',
+                      pathSong: '',
+                      id: 1,
                       nameSong: 'Victory',
                       nameSinger: 'Two Step From Hell')));
         },

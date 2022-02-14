@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:media/features/home/home_page.dart';
+import 'package:media/utils/song_db.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+late SongDatabase songDatabase;
+late SharedPreferences preferences;
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  songDatabase = SongDatabase.instance;
+  await songDatabase.database;
+  preferences = await SharedPreferences.getInstance();
   runApp(MyApp());
 }
 
